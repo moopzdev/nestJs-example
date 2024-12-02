@@ -13,19 +13,23 @@ import {
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user-dto';
-import { UserNotFoundExceptionFilter } from './users.exception-filter';
+import { GlobalExceptionFilter } from './users.exception-filter';
 import { UserDto } from './dtos/user.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { AuthService } from './auth.service';
 
 @Controller('auth')
-@UseFilters(UserNotFoundExceptionFilter)
+@UseFilters(GlobalExceptionFilter)
 @Serialize(UserDto)
 export class UsersController {
-  constructor(private usersService: UsersService) {}
+  constructor(
+    private usersService: UsersService,
+    private authService: AuthService,
+  ) {}
 
   @Post('signup')
   createUser(@Body() body: CreateUserDto) {
-    return this.usersService.create(body.email, body.password);
+    return this.authService.signup(body.email, body.password);
   }
 
   @Get(':id')
