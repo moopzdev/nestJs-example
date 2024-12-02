@@ -8,7 +8,7 @@ Content-Type: application/json
 }
 
 ### FIND ONE USER
-GET http://localhost:3000/auth/1
+GET http://localhost:3000/auth/3
 
 
 ### FIND ALL BY EMAIL

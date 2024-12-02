@@ -14,10 +14,15 @@ import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user-dto';
 import { UserNotFoundExceptionFilter } from './users.exception-filter';
-@UseFilters(UserNotFoundExceptionFilter)
+import { UserDto } from './dtos/user.dto';
+import { Serialize } from 'src/interceptors/serialize.interceptor';
+
 @Controller('auth')
+@UseFilters(UserNotFoundExceptionFilter)
+@Serialize(UserDto)
 export class UsersController {
   constructor(private usersService: UsersService) {}
+
   @Post('signup')
   createUser(@Body() body: CreateUserDto) {
     return this.usersService.create(body.email, body.password);
