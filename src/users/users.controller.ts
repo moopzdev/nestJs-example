@@ -13,13 +13,13 @@ import {
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user-dto';
-import { GlobalExceptionFilter } from './users.exception-filter';
+import { RestApiExceptionFilter } from '../filters/rest-api.exception-filter';
 import { UserDto } from './dtos/user.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { AuthService } from './auth.service';
 
 @Controller('auth')
-@UseFilters(GlobalExceptionFilter)
+@UseFilters(RestApiExceptionFilter)
 @Serialize(UserDto)
 export class UsersController {
   constructor(

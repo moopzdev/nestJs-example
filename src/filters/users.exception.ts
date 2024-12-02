@@ -1,8 +1,4 @@
-export class CustomException extends Error {
-  constructor(message: string) {
-    super(message);
-  }
-}
+import { CustomException } from './rest-api.exception-filter';
 
 export class UserNotFoundException extends CustomException {
   constructor(message: string = 'User not found') {

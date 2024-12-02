@@ -1,25 +1,18 @@
 import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
+import { Response } from 'express';
 import {
-  CustomException,
   EmailAlreadyTakenException,
   UserNotFoundException,
 } from './users.exception';
-import { Response } from 'express';
 
-// @Catch(UserNotFoundException)
-// export class UserNotFoundExceptionFilter implements ExceptionFilter {
-//   catch(exception: UserNotFoundException, host: ArgumentsHost) {
-//     const ctx = host.switchToHttp();
-//     const response = ctx.getResponse<Response>();
-//     response.status(404).json({
-//       statusCode: 404,
-//       message: exception.message,
-//     });
-//   }
-// }
+export class CustomException extends Error {
+  constructor(message: string) {
+    super(message);
+  }
+}
 
 @Catch(CustomException)
-export class GlobalExceptionFilter implements ExceptionFilter {
+export class RestApiExceptionFilter implements ExceptionFilter {
   catch(exception: CustomException, host: ArgumentsHost) {
     let statusCode = 500;
     switch (exception.constructor) {

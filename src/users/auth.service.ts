@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { promisify } from 'util';
 import { scrypt as _scrypt, randomBytes } from 'crypto';
-import { EmailAlreadyTakenException } from './users.exception';
+import { EmailAlreadyTakenException } from '../filters/users.exception';
 
 const scrypt = promisify(_scrypt);
 
