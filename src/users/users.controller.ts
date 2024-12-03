@@ -10,7 +10,7 @@ import {
   Query,
   UseFilters,
 } from '@nestjs/common';
-import { CreateUserDto } from './dtos/create-user.dto';
+import { AuthenticateUserDto } from './dtos/authenticate-user.dto';
 import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user-dto';
 import { RestApiExceptionFilter } from '../filters/rest-api.exception-filter';
@@ -28,8 +28,13 @@ export class UsersController {
   ) {}
 
   @Post('signup')
-  createUser(@Body() body: CreateUserDto) {
+  signup(@Body() body: AuthenticateUserDto) {
     return this.authService.signup(body.email, body.password);
+  }
+
+  @Post('signin')
+  signin(@Body() body: AuthenticateUserDto) {
+    return this.authService.signin(body.email, body.password);
   }
 
   @Get(':id')

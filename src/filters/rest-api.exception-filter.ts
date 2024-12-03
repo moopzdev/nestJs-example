@@ -1,8 +1,14 @@
-import { ArgumentsHost, Catch, ExceptionFilter } from '@nestjs/common';
+import {
+  ArgumentsHost,
+  Catch,
+  ExceptionFilter,
+  HttpStatus,
+} from '@nestjs/common';
 import { Response } from 'express';
 import {
   EmailAlreadyTakenException,
   UserNotFoundException,
+  WrongPasswordException,
 } from './users.exception';
 
 export class CustomException extends Error {
@@ -14,19 +20,26 @@ export class CustomException extends Error {
 @Catch(CustomException)
 export class RestApiExceptionFilter implements ExceptionFilter {
   catch(exception: CustomException, host: ArgumentsHost) {
-    let statusCode = 500;
+    const ctx = host.switchToHttp();
+    const response = ctx.getResponse<Response>();
+    let status: HttpStatus;
+    console.log(exception.constructor);
     switch (exception.constructor) {
       case UserNotFoundException:
-        statusCode = 404;
+        status = HttpStatus.NOT_FOUND;
+        break;
       case EmailAlreadyTakenException:
-        statusCode = 400;
+        status = HttpStatus.BAD_REQUEST;
+        break;
+      case WrongPasswordException:
+        status = HttpStatus.UNAUTHORIZED;
+        break;
       default:
-        const ctx = host.switchToHttp();
-        const response = ctx.getResponse<Response>();
-        response.status(statusCode).json({
-          statusCode: statusCode,
-          message: exception.message,
-        });
+        status = HttpStatus.INTERNAL_SERVER_ERROR;
     }
+    response.status(status).json({
+      statusCode: status,
+      message: exception.message,
+    });
   }
 }

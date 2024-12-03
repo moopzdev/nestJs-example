@@ -8,8 +8,15 @@ export class UserNotFoundException extends CustomException {
 }
 
 export class EmailAlreadyTakenException extends CustomException {
-  constructor(message: string) {
-    super('Email is already taken: ' + message);
+  constructor(email: string) {
+    super('Email is already taken: ' + email);
     this.name = 'EmailAlreadyTakenException';
+  }
+}
+
+export class WrongPasswordException extends CustomException {
+  constructor(message: string = 'Passwords do not match') {
+    super(message);
+    this.name = 'WrongPasswordException';
   }
 }
