@@ -2,7 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { User } from './users.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserNotFoundException } from '../filters/users.exception';
+import {
+  UserNotFoundException,
+  UserNotSignedInException,
+} from '../filters/users.exception';
 
 @Injectable()
 export class UsersService {
@@ -19,9 +22,12 @@ export class UsersService {
   }
 
   async findOne(id: number) {
+    if (!id) {
+      throw new UserNotSignedInException();
+    }
     const user = await this.repo.findOne({ where: { id } });
     if (!user) {
-      throw new UserNotFoundException();
+      throw new UserNotFoundException(id.toString());
     }
     return user;
   }

@@ -8,7 +8,10 @@ import {
   Patch,
   Post,
   Query,
+  Req,
+  Res,
   UseFilters,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthenticateUserDto } from './dtos/authenticate-user.dto';
 import { UsersService } from './users.service';
@@ -17,6 +20,10 @@ import { RestApiExceptionFilter } from '../filters/rest-api.exception-filter';
 import { UserDto } from './dtos/user.dto';
 import { Serialize } from 'src/interceptors/serialize.interceptor';
 import { AuthService } from './auth.service';
+import { Request, Response } from 'express';
+import { CurrentUser } from './decorators/current-user.decorator';
+import { User } from './users.entity';
+import { AuthGuard } from 'src/guards/auth.guard';
 
 @Controller('auth')
 @UseFilters(RestApiExceptionFilter)
@@ -27,14 +34,40 @@ export class UsersController {
     private authService: AuthService,
   ) {}
 
+  // @Get('whoami')
+  // whoAmI(@Req() request: Request) {
+  //   return this.usersService.findOne(request.cookies['userId']);
+  // }
+
+  @Get('whoami')
+  @UseGuards(AuthGuard)
+  whoAmI(@CurrentUser() user: User) {
+    return user;
+  }
+
+  @Post('signout')
+  signOut(@Res({ passthrough: true }) response: Response) {
+    response.clearCookie('userId');
+  }
+
   @Post('signup')
-  signup(@Body() body: AuthenticateUserDto) {
-    return this.authService.signup(body.email, body.password);
+  async signup(
+    @Body() body: AuthenticateUserDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const user = await this.authService.signup(body.email, body.password);
+    response.cookie('userId', user.id);
+    return user;
   }
 
   @Post('signin')
-  signin(@Body() body: AuthenticateUserDto) {
-    return this.authService.signin(body.email, body.password);
+  async signin(
+    @Body() body: AuthenticateUserDto,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    const user = await this.authService.signin(body.email, body.password);
+    response.cookie('userId', user.id);
+    return user;
   }
 
   @Get(':id')
@@ -58,5 +91,19 @@ export class UsersController {
     @Body() body: UpdateUserDto,
   ) {
     return this.usersService.update(id, body);
+  }
+
+  //HANDY REFERENCES FOR USING COOKIES
+  @Get('/colors/:color')
+  setColor(
+    @Param('color') color: string,
+    @Res({ passthrough: true }) response: Response,
+  ) {
+    response.cookie('color', color);
+  }
+
+  @Get('/colors')
+  getColor(@Req() request: Request) {
+    return request.cookies['color'];
   }
 }
