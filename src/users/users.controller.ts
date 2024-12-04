@@ -34,11 +34,6 @@ export class UsersController {
     private authService: AuthService,
   ) {}
 
-  // @Get('whoami')
-  // whoAmI(@Req() request: Request) {
-  //   return this.usersService.findOne(request.cookies['userId']);
-  // }
-
   @Get('whoami')
   @UseGuards(AuthGuard)
   whoAmI(@CurrentUser() user: User) {
