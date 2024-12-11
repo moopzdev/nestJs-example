@@ -1,0 +1,16 @@
+#REPORTS
+### CREATE REPORT
+POST http://localhost:3000/reports
+Content-Type: application/json
+
+{
+    "make": "Toyota",
+    "model": "Supra",
+    "year": 1991,
+    "lat": 1,
+    "lng": 1,
+    "milage": 10000,
+    "price":20000
+}
+
+
