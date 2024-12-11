@@ -14,3 +14,23 @@ Content-Type: application/json
 }
 
 
+### Approve Existing Report
+
+PATCH http://localhost:3000/reports/2
+Content-Type: application/json
+
+{
+    "isApproved": true
+}
+
+### Unapprove Existing Report
+
+PATCH http://localhost:3000/reports/2
+Content-Type: application/json
+
+{
+    "isApproved": false
+}
+
+### Get Estimate
+GET http://localhost:3000/reports?make=toyota&model=supra&lng=1&lat=1&milage=10000&year=1991
