@@ -11,7 +11,7 @@ import {
   UserNotFoundException,
   UserNotSignedInException,
   WrongPasswordException,
-} from './users.exception';
+} from '../exceptions/users.exception';
 
 @Catch(CustomException)
 export class RestApiExceptionFilter implements ExceptionFilter {

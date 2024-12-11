@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import {
   UserNotFoundException,
   UserNotSignedInException,
-} from '../filters/users.exception';
+} from '../exceptions/users.exception';
 
 @Injectable()
 export class UsersService {

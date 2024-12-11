@@ -6,17 +6,17 @@ import {
   EmailAlreadyTakenException,
   UserNotFoundException,
   WrongPasswordException,
-} from '../filters/users.exception';
+} from '../exceptions/users.exception';
 
 const scrypt = promisify(_scrypt);
 
 @Injectable()
 export class AuthService {
-  constructor(private userSService: UsersService) {}
+  constructor(private userService: UsersService) {}
 
   async signup(email: string, password: string) {
     //See if email is in use
-    const users = await this.userSService.find(email);
+    const users = await this.userService.find(email);
     if (users.length) {
       throw new EmailAlreadyTakenException(email);
     }
@@ -27,11 +27,11 @@ export class AuthService {
     //join the hashed result and salt together
     const result = salt + '.' + hash.toString('hex');
     //create new user; save it; return
-    return this.userSService.create(email, result);
+    return this.userService.create(email, result);
   }
 
   async signin(email: string, password: string) {
-    const [user] = await this.userSService.find(email);
+    const [user] = await this.userService.find(email);
     if (!user) {
       throw new UserNotFoundException(email);
     }

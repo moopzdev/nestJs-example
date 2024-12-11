@@ -18,12 +18,12 @@ import { UsersService } from './users.service';
 import { UpdateUserDto } from './dtos/update-user-dto';
 import { RestApiExceptionFilter } from '../filters/rest-api.exception-filter';
 import { UserDto } from './dtos/user.dto';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { Serialize } from '../interceptors/serialize.interceptor';
 import { AuthService } from './auth.service';
 import { Request, Response } from 'express';
 import { CurrentUser } from './decorators/current-user.decorator';
 import { User } from './users.entity';
-import { AuthGuard } from 'src/guards/auth.guard';
+import { AuthGuard } from '../guards/auth.guard';
 
 @Controller('auth')
 @UseFilters(RestApiExceptionFilter)
