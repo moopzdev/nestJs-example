@@ -5,12 +5,12 @@ Content-Type: application/json
 
 {
     "make": "Toyota",
-    "model": "Supra",
-    "year": 1991,
-    "lat": 1,
-    "lng": 1,
-    "milage": 10000,
-    "price":20000
+    "model": "Corolla",
+    "year": 1993,
+    "lat": 30,
+    "lng": 2,
+    "milage": 20000,
+    "price":70000
 }
 
 
@@ -33,4 +33,4 @@ Content-Type: application/json
 }
 
 ### Get Estimate
-GET http://localhost:3000/reports?make=toyota&model=supra&lng=1&lat=1&milage=10000&year=1991
+GET http://localhost:3000/reports?make=Toyota&model=Corolla&lng=2&lat=29&milage=20000&year=1991

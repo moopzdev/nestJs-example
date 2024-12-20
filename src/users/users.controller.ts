@@ -42,7 +42,7 @@ export class UsersController {
 
   @Post('signout')
   signOut(@Res({ passthrough: true }) response: Response) {
-    response.clearCookie('userId');
+    response.clearCookie('userId').status(200);
   }
 
   @Post('signup')
@@ -61,7 +61,7 @@ export class UsersController {
     @Res({ passthrough: true }) response: Response,
   ) {
     const user = await this.authService.signin(body.email, body.password);
-    response.cookie('userId', user.id);
+    response.cookie('userId', user.id).status(200);
     return user;
   }
 

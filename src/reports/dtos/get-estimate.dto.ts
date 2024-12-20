@@ -9,7 +9,7 @@ import {
   Min,
 } from 'class-validator';
 
-export class GetEstimateReportDto {
+export class GetEstimateDto {
   @IsString()
   @IsNotEmpty()
   make: string;

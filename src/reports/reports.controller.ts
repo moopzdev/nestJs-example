@@ -12,13 +12,13 @@ import {
 import { CreateReportDto } from './dtos/create-report.dto';
 import { ReportsService } from './reports.service';
 import { AuthGuard } from '../guards/auth.guard';
-import { CurrentUser } from 'src/users/decorators/current-user.decorator';
-import { User } from 'src/users/users.entity';
-import { Serialize } from 'src/interceptors/serialize.interceptor';
+import { CurrentUser } from '../users/decorators/current-user.decorator';
+import { User } from '../users/users.entity';
+import { Serialize } from '../interceptors/serialize.interceptor';
 import { ReportDto } from './dtos/report.dto';
 import { ApproveReportDto } from './dtos/approve-report.dto';
-import { AdminGuard } from 'src/guards/admin.guard';
-import { GetEstimateReportDto as GetEstimateDto } from './dtos/get-estimate.dto';
+import { AdminGuard } from '../guards/admin.guard';
+import { GetEstimateDto } from './dtos/get-estimate.dto';
 
 @Controller('reports')
 export class ReportsController {
@@ -42,6 +42,6 @@ export class ReportsController {
 
   @Get()
   getEstimate(@Query() query: GetEstimateDto) {
-    console.log(query);
+    return this.reportsService.getEstimate(query);
   }
 }
