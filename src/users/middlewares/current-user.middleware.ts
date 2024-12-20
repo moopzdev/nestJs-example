@@ -1,7 +1,7 @@
 import { Injectable, NestMiddleware } from '@nestjs/common';
 import { UsersService } from '../users.service';
 import { NextFunction, Request, Response } from 'express';
-import { UserNotFoundException } from 'src/exceptions/users.exception';
+import { UserNotFoundException } from '../../exceptions/users.exception';
 
 @Injectable()
 export class CurrentUserMiddleware implements NestMiddleware {

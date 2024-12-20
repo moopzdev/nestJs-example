@@ -75,8 +75,14 @@ describe('UsersController', () => {
   });
   describe('signin', () => {
     it('should update session object an returns user', async () => {
+      // normally I would condemn this shameless type casting but it is okay for the purpose of unittesting
       const response = {
-        cookie: jest.fn(),
+        cookie: jest.fn(() => {
+          return response;
+        }),
+        status: jest.fn(() => {
+          return response;
+        }),
       } as unknown as Response;
       const user = await controller.signin(
         { email: 'test@mail.com', password: 'pwd' },
